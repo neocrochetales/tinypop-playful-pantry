@@ -25,7 +25,7 @@ export function SiteFooter() {
             <Link to="/shop" className="hover:text-primary">All products</Link>
             <Link to="/best-sellers" className="hover:text-primary">Parents' Picks</Link>
             <Link to="/collections" className="hover:text-primary">Categories</Link>
-            <a href="mailto:hello@tinypop.in" className="hover:text-primary">Contact</a>
+            <Link to="/pages/$handle" params={{ handle: "contact" }} className="hover:text-primary">Contact</Link>
           </nav>
         </div>
         <div>

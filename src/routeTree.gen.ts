@@ -13,6 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BestSellersRouteImport } from './routes/best-sellers'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as CollectionsHandleRouteImport } from './routes/collections/$handle'
+import { Route as PagesHandleRouteImport } from './routes/pages/$handle'
+import { Route as PoliciesTypeRouteImport } from './routes/policies/$type'
+import { Route as ProductsHandleRouteImport } from './routes/products/$handle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,39 +38,99 @@ const ShopRoute = ShopRouteImport.update({
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CollectionsHandleRoute = CollectionsHandleRouteImport.update({
+  id: '/$handle',
+  path: '/$handle',
+  getParentRoute: () => CollectionsRoute,
+} as any)
+const PagesHandleRoute = PagesHandleRouteImport.update({
+  id: '/pages/$handle',
+  path: '/pages/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesTypeRoute = PoliciesTypeRouteImport.update({
+  id: '/policies/$type',
+  path: '/policies/$type',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsHandleRoute = ProductsHandleRouteImport.update({
+  id: '/products/$handle',
+  path: '/products/$handle',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/best-sellers': typeof BestSellersRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/shop': typeof ShopRoute
+  '/collections/$handle': typeof CollectionsHandleRoute
+  '/pages/$handle': typeof PagesHandleRoute
+  '/policies/$type': typeof PoliciesTypeRoute
+  '/products/$handle': typeof ProductsHandleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/best-sellers': typeof BestSellersRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/shop': typeof ShopRoute
+  '/collections/$handle': typeof CollectionsHandleRoute
+  '/pages/$handle': typeof PagesHandleRoute
+  '/policies/$type': typeof PoliciesTypeRoute
+  '/products/$handle': typeof ProductsHandleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/best-sellers': typeof BestSellersRoute
-  '/collections': typeof CollectionsRoute
+  '/collections': typeof CollectionsRouteWithChildren
   '/shop': typeof ShopRoute
+  '/collections/$handle': typeof CollectionsHandleRoute
+  '/pages/$handle': typeof PagesHandleRoute
+  '/policies/$type': typeof PoliciesTypeRoute
+  '/products/$handle': typeof ProductsHandleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/best-sellers' | '/collections' | '/shop'
+  fullPaths:
+    | '/'
+    | '/best-sellers'
+    | '/collections'
+    | '/shop'
+    | '/collections/$handle'
+    | '/pages/$handle'
+    | '/policies/$type'
+    | '/products/$handle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/best-sellers' | '/collections' | '/shop'
-  id: '__root__' | '/' | '/best-sellers' | '/collections' | '/shop'
+  to:
+    | '/'
+    | '/best-sellers'
+    | '/collections'
+    | '/shop'
+    | '/collections/$handle'
+    | '/pages/$handle'
+    | '/policies/$type'
+    | '/products/$handle'
+  id:
+    | '__root__'
+    | '/'
+    | '/best-sellers'
+    | '/collections'
+    | '/shop'
+    | '/collections/$handle'
+    | '/pages/$handle'
+    | '/policies/$type'
+    | '/products/$handle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BestSellersRoute: typeof BestSellersRoute
-  CollectionsRoute: typeof CollectionsRoute
+  CollectionsRoute: typeof CollectionsRouteWithChildren
   ShopRoute: typeof ShopRoute
+  PagesHandleRoute: typeof PagesHandleRoute
+  PoliciesTypeRoute: typeof PoliciesTypeRoute
+  ProductsHandleRoute: typeof ProductsHandleRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,14 +163,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/collections/$handle': {
+      id: '/collections/$handle'
+      path: '/$handle'
+      fullPath: '/collections/$handle'
+      preLoaderRoute: typeof CollectionsHandleRouteImport
+      parentRoute: typeof CollectionsRoute
+    }
+    '/pages/$handle': {
+      id: '/pages/$handle'
+      path: '/pages/$handle'
+      fullPath: '/pages/$handle'
+      preLoaderRoute: typeof PagesHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies/$type': {
+      id: '/policies/$type'
+      path: '/policies/$type'
+      fullPath: '/policies/$type'
+      preLoaderRoute: typeof PoliciesTypeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$handle': {
+      id: '/products/$handle'
+      path: '/products/$handle'
+      fullPath: '/products/$handle'
+      preLoaderRoute: typeof ProductsHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface CollectionsRouteChildren {
+  CollectionsHandleRoute: typeof CollectionsHandleRoute
+}
+
+const CollectionsRouteChildren: CollectionsRouteChildren = {
+  CollectionsHandleRoute: CollectionsHandleRoute,
+}
+
+const CollectionsRouteWithChildren = CollectionsRoute._addFileChildren(
+  CollectionsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BestSellersRoute: BestSellersRoute,
-  CollectionsRoute: CollectionsRoute,
+  CollectionsRoute: CollectionsRouteWithChildren,
   ShopRoute: ShopRoute,
+  PagesHandleRoute: PagesHandleRoute,
+  PoliciesTypeRoute: PoliciesTypeRoute,
+  ProductsHandleRoute: ProductsHandleRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

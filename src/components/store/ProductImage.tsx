@@ -19,6 +19,9 @@ export function ProductImage({ product, className = "", sizes = "(min-width: 768
       alt={image.altText || product.title}
       className={className}
       loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
+      width={image.width}
+      height={image.height}
       sizes={sizes}
     />
   );

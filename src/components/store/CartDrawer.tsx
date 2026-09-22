@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ExternalLink, Loader2, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 
@@ -55,7 +56,7 @@ export function CartDrawer() {
                   <p className="mt-1 text-sm text-muted-foreground">Browse TinyPop picks and add your favourites.</p>
                 </div>
                 <Button asChild className="rounded-full" onClick={() => setIsOpen(false)}>
-                  <a href="/shop">Shop TinyPop</a>
+                  <Link to="/shop">Shop TinyPop</Link>
                 </Button>
               </div>
             </div>
